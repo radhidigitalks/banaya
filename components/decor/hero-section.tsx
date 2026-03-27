@@ -1,6 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import dynamic from "next/dynamic";
+
+const FoodCanvas = dynamic(() => import("./food-canvas"), { ssr: false });
 
 export function DecorHeroSection() {
   const [isVisible, setIsVisible] = useState(false);
@@ -60,18 +63,15 @@ export function DecorHeroSection() {
           </div>
         </div>
 
-        {/* Right Image */}
+        {/* Right — Three.js 3D Scene */}
         <div
-          className={`relative transition-all duration-1000 delay-500 ${
+          className={`relative bg-[#fafaf8] transition-all duration-1000 delay-500 min-h-[500px] ${
             isVisible ? "opacity-100 scale-100" : "opacity-0 scale-95"
           }`}
         >
-          <div className="h-full min-h-[500px] lg:min-h-full">
-            <img
-              src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=1200&q=80"
-              alt="Wooden serving tray with sushi"
-              className="w-full h-full object-cover"
-            />
+          <FoodCanvas />
+          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-xs tracking-[0.25em] text-[#1a1a1a]/40 uppercase select-none pointer-events-none">
+            Drag to rotate
           </div>
         </div>
       </div>
