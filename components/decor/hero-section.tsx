@@ -16,7 +16,7 @@ export function DecorHeroSection() {
  const items = [
   {
     src: "/momos.png",
-    range: [0.15, 0.20],
+    range: [0.1, 0.20],
     rotate: -5,
     className: "bottom-[45%] right-[17%] w-[16%] h-[26%]",
   },
@@ -53,8 +53,8 @@ export function DecorHeroSection() {
   {
     src: "/noodles.png",
     range: [0.45, 0.50], // 👈 end exactly at 0.50
-    rotate: -16,
-    className: "bottom-[20%] left-[30%] w-[38%] h-[40%]",
+    rotate: -8,
+    className: "bottom-[20%] left-[27%] w-[38%] h-[30%]",
   },
 ];  
 
@@ -88,16 +88,17 @@ export function DecorHeroSection() {
           />
 
           {/* 🍜 ITEMS */}
-          {items.map((item, index) => (
-            <AnimatedItem
-              key={index}
-              src={item.src}
-              progress={scrollYProgress}
-              range={item.range}
-              rotate={item.rotate}
-              className={item.className}
-            />
-          ))}
+      {items.map((item, index) => (
+  <AnimatedItem
+    key={index}
+    src={item.src}
+    progress={scrollYProgress}
+    range={item.range}
+    rotate={item.rotate}
+    className={item.className}
+    zIndex={index + 20} // 👈 FIX
+  />
+))}
 
           {/* 🥢 CHOPSTICKS */}
           <Chopsticks progress={scrollYProgress} />
@@ -108,12 +109,18 @@ export function DecorHeroSection() {
 }
 
 // 🍜 ITEM COMPONENT
-function AnimatedItem({ src, progress, range, rotate, className }) {
-  if (!range) return null; // safety
+function AnimatedItem({ src, progress, range, rotate, className, zIndex }) {
+  const opacity = useTransform(progress, [range[0], range[1]], [0, 1], {
+    clamp: true,
+  });
 
-  const opacity = useTransform(progress, range, [0, 1]);
- const scale = useTransform(progress, range, [0.7, 1.1]);
-  const y = useTransform(progress, range, [60, 0]);
+  const scale = useTransform(progress, [range[0], range[1]], [0.85, 1], {
+    clamp: true,
+  });
+
+  const y = useTransform(progress, [range[0], range[1]], [40, 0], {
+    clamp: true,
+  });
 
   return (
     <motion.div
@@ -122,14 +129,16 @@ function AnimatedItem({ src, progress, range, rotate, className }) {
         scale,
         y,
         rotate: `${rotate}deg`,
+        zIndex, // 👈 important
+        willChange: "transform, opacity",
       }}
-      className={`absolute ${className} z-20`}
+      className={`absolute ${className}`}
     >
       <Image
         src={src}
         alt="food"
         fill
-        className="object-contain drop-shadow-xl"
+        className="object-contain drop-shadow-lg"
       />
     </motion.div>
   );
