@@ -13,7 +13,7 @@ export function DecorHeroSection() {
   });
 
   // ✅ FIXED & ORDERED ITEMS
-  const items: { src: string; range: [number, number]; rotate: number; className: string }[] = [
+  const items = [
     {
       src: "/momos.png",
       range: [0.1, 0.20],
@@ -52,7 +52,7 @@ export function DecorHeroSection() {
     },
     {
       src: "/noodles.png",
-      range: [0.45, 0.50],
+      range: [0.45, 0.50], // 👈 end exactly at 0.50
       rotate: -8,
       className: "bottom-[20%] left-[27%] w-[38%] h-[30%]",
     },
@@ -88,17 +88,17 @@ export function DecorHeroSection() {
           />
 
           {/* 🍜 ITEMS */}
-      {items.map((item, index) => (
-  <AnimatedItem
-    key={index}
-    src={item.src}
-    progress={scrollYProgress}
-    range={item.range}
-    rotate={item.rotate}
-    className={item.className}
-    zIndex={index + 20} // 👈 FIX
-  />
-))}
+          {items.map((item, index) => (
+            <AnimatedItem
+              key={index}
+              src={item.src}
+              progress={scrollYProgress}
+              range={item.range}
+              rotate={item.rotate}
+              className={item.className}
+              zIndex={index + 20} // 👈 FIX
+            />
+          ))}
 
           {/* 🥢 CHOPSTICKS */}
         </div>
