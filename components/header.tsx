@@ -17,7 +17,7 @@ export function Header({ variant = "dark" }: HeaderProps) {
 
   return (
     <header className={`fixed top-0 left-0 right-0 z-50 ${bgClass}`}>
-      <div className="flex items-center justify-center py-6">
+      <div className="flex items-center justify-center py-2">
         <Logo variant={logoVariant} />
       </div>
     </header>

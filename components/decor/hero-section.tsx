@@ -53,26 +53,42 @@ export function DecorHeroSection() {
     {
       src: "/noodles.png",
       range: [0.45, 0.50], // 👈 end exactly at 0.50
+      rotate: -10,
+      className: "bottom-[24%] left-[32%] w-[38%] h-[30%]",
+    },
+      {
+      src: "/lamon.png",
+      range: [0.50, 0.55], // 👈 end exactly at 0.50
       rotate: -8,
-      className: "bottom-[20%] left-[27%] w-[38%] h-[30%]",
+      className: "bottom-[38%] left-[40%] w-[8%] h-[7%]",
     },
   ];
 
   return (
-    <section ref={containerRef} className="relative h-[400vh] bg-white">
-      <div className="sticky top-0 h-screen flex items-center justify-center">
+    <section ref={containerRef} className="relative h-[400vh] bg-white overflow-visible">
+      <div className="sticky top-0 h-screen flex items-center justify-center overflow-visible">
 
         {/* LEFT TEXT */}
-        <div className="absolute left-10 max-w-sm">
-          <h1 className="font-serif text-5xl md:text-6xl lg:text-7xl text-[#1a1a1a] italic leading-tight">
-            Banayaa <br /> Decor
+        <div className="absolute left-6 top-18 max-w-[290px] z-50">
+          <p className="text-[10px] uppercase tracking-[0.3em] text-gray-400 mb-3">Since 2020</p>
+          <h1 className="font-serif text-5xl text-[#1a1a1a] italic leading-tight mb-4">
+            Banaya Decor
           </h1>
+          <div className="w-8 h-[2px] bg-[#c8a96e] mb-4" />
+          <p className="text-gray-500 text-xs leading-relaxed">
+            Handcrafted wooden<br />serving platters for<br />modern dining.
+          </p>
         </div>
 
         {/* RIGHT TEXT */}
-        <div className="absolute right-10 max-w-xs text-right">
-          <p className="text-gray-600 text-lg leading-relaxed">
-            Premium handcrafted trays designed to elevate your dining experience.
+        <div className="absolute right-6 bottom-8 max-w-[385px] text-right z-50">
+          <p className="text-2xl uppercase tracking-[0.3em] text-gray-400 mb-3">Premium Quality</p>
+          <p className="text-gray-600 text-xs leading-relaxed mb-4">
+            Elevate every meal with our signature puzzle-fit tray collection.
+          </p>
+          <div className="ml-auto w-8 h-[2px] bg-[#c8a96e] mb-4" />
+          <p className="text-lg text-gray-400 leading-relaxed">
+            100% Acacia Wood<br />Food Safe Finish<br />Modular Design
           </p>
         </div>
 
@@ -96,7 +112,7 @@ export function DecorHeroSection() {
               range={item.range}
               rotate={item.rotate}
               className={item.className}
-              zIndex={index + 20} // 👈 FIX
+              zIndex={index + 20}
             />
           ))}
 
