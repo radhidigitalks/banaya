@@ -13,50 +13,50 @@ export function DecorHeroSection() {
   });
 
   // ✅ FIXED & ORDERED ITEMS
- const items = [
-  {
-    src: "/momos.png",
-    range: [0.1, 0.20],
-    rotate: -5,
-    className: "bottom-[45%] right-[17%] w-[16%] h-[26%]",
-  },
-  {
-    src: "/momos2.png",
-    range: [0.20, 0.25],
-    rotate: -2,
-    className: "bottom-[42%] right-[18%] w-[22%] h-[26%]",
-  },
-  {
-    src: "/sushi.png",
-    range: [0.25, 0.30],
-    rotate: 10,
-    className: "top-[30%] left-[15%] w-[26%] h-[30%]",
-  },
-  {
-    src: "/rolls.png",
-    range: [0.30, 0.35],
-    rotate: 6,
-    className: "top-[10%] left-[36%] w-[38%] h-[32%]",
-  },  
-  {
-    src: "/mit.png",
-    range: [0.35, 0.40],
-    rotate: -10,
-    className: "top-[15%] left-[25%] w-[24%] h-[38%]",
-  },
-  {
-    src: "/mit1.png",
-    range: [0.40, 0.45],
-    rotate: -10,
-    className: "top-[20%] left-[30%] w-[21%] h-[38%]",
-  },
-  {
-    src: "/noodles.png",
-    range: [0.45, 0.50], // 👈 end exactly at 0.50
-    rotate: -8,
-    className: "bottom-[20%] left-[27%] w-[38%] h-[30%]",
-  },
-];  
+  const items: { src: string; range: [number, number]; rotate: number; className: string }[] = [
+    {
+      src: "/momos.png",
+      range: [0.1, 0.20],
+      rotate: -5,
+      className: "bottom-[45%] right-[17%] w-[16%] h-[26%]",
+    },
+    {
+      src: "/momos2.png",
+      range: [0.20, 0.25],
+      rotate: -2,
+      className: "bottom-[42%] right-[18%] w-[22%] h-[26%]",
+    },
+    {
+      src: "/sushi.png",
+      range: [0.25, 0.30],
+      rotate: 10,
+      className: "top-[30%] left-[15%] w-[26%] h-[30%]",
+    },
+    {
+      src: "/rolls.png",
+      range: [0.30, 0.35],
+      rotate: 6,
+      className: "top-[10%] left-[36%] w-[38%] h-[32%]",
+    },
+    {
+      src: "/mit.png",
+      range: [0.35, 0.40],
+      rotate: -10,
+      className: "top-[15%] left-[25%] w-[24%] h-[38%]",
+    },
+    {
+      src: "/mit1.png",
+      range: [0.40, 0.45],
+      rotate: -10,
+      className: "top-[20%] left-[30%] w-[21%] h-[38%]",
+    },
+    {
+      src: "/noodles.png",
+      range: [0.45, 0.50],
+      rotate: -8,
+      className: "bottom-[20%] left-[27%] w-[38%] h-[30%]",
+    },
+  ];
 
   return (
     <section ref={containerRef} className="relative h-[400vh] bg-white">
@@ -84,7 +84,7 @@ export function DecorHeroSection() {
             alt="tray"
             fill
             priority
-            className="object-contain scale-[1.2]"
+            className="object-contain scale-[1.2] "
           />
 
           {/* 🍜 ITEMS */}
@@ -101,7 +101,6 @@ export function DecorHeroSection() {
 ))}
 
           {/* 🥢 CHOPSTICKS */}
-          <Chopsticks progress={scrollYProgress} />
         </div>
       </div>
     </section>
@@ -109,17 +108,41 @@ export function DecorHeroSection() {
 }
 
 // 🍜 ITEM COMPONENT
-function AnimatedItem({ src, progress, range, rotate, className, zIndex }) {
-  const opacity = useTransform(progress, [range[0], range[1]], [0, 1], {
-    clamp: true,
+function AnimatedItem({
+  src,
+  progress,
+  range,
+  rotate,
+  className,
+  zIndex,
+}: {
+  src: string;
+  progress: import("framer-motion").MotionValue<number>;
+  range: [number, number];
+  rotate: number;
+  className: string;
+  zIndex: number;
+}) {
+  // ✅ Custom transform: once item appears (progress >= range[0]), it STAYS visible forever
+  // opacity never goes back to 0 after it reaches 1
+  const opacity = useTransform(progress, (v: number) => {
+    if (v < range[0]) return 0;                                  // abhi aaya nahi
+    if (v >= range[1]) return 1;                                 // aa gaya, lock at 1
+    return (v - range[0]) / (range[1] - range[0]);              // fade in ho raha hai
   });
 
-  const scale = useTransform(progress, [range[0], range[1]], [0.85, 1], {
-    clamp: true,
+  const scale = useTransform(progress, (v: number) => {
+    if (v < range[0]) return 0.85;
+    if (v >= range[1]) return 1;
+    const t = (v - range[0]) / (range[1] - range[0]);
+    return 0.85 + t * 0.15;
   });
 
-  const y = useTransform(progress, [range[0], range[1]], [40, 0], {
-    clamp: true,
+  const y = useTransform(progress, (v: number) => {
+    if (v < range[0]) return 40;
+    if (v >= range[1]) return 0;
+    const t = (v - range[0]) / (range[1] - range[0]);
+    return 40 - t * 40;
   });
 
   return (
